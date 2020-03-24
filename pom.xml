@@ -18,7 +18,7 @@
         <test.fork.reuse>true</test.fork.reuse>
         <!-- These can be moved into a profile if needed for 2.12 upgrade in the future -->
         <!-- mimic apache spark pom perhaps in that case -->
-        <scala.version>2.11.7</scala.version>
+        <scala.version>2.13.1</scala.version>
         <scala.binary.version>2.11</scala.binary.version>
         <scala.xml.version>1.0.6</scala.xml.version>
         <scala.parsers.version>1.0.6</scala.parsers.version>
