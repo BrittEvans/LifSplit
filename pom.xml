@@ -11,487 +11,102 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- testing properties -->
-        <!-- TODO add explanations for these parameters-->
-        <maven.test.jvmargs>-Duser.timezone=UTC -Xms1g -Xmx4g -XX:-UseGCOverheadLimit -Djava.net.preferIPv4Stack=true -Djava.awt.headless=true</maven.test.jvmargs>
-        <test.fork.count>1</test.fork.count>
-        <test.fork.reuse>true</test.fork.reuse>
-        <!-- These can be moved into a profile if needed for 2.12 upgrade in the future -->
-        <!-- mimic apache spark pom perhaps in that case -->
-        <scala.version>2.11.7</scala.version>
-        <scala.binary.version>2.11</scala.binary.version>
-        <scala.xml.version>1.0.6</scala.xml.version>
-        <scala.parsers.version>1.0.6</scala.parsers.version>
-
-        <!-- logging -->
-        <!-- Note: scala-logging 3.8.0 and 3.9.0 are built against slf4j-api 1.7.25.  -->
-        <scalalogging.version>3.8.0</scalalogging.version>
-        <slf4j.version>1.7.25</slf4j.version>
-
-        <!-- scala testing -->
-        <junit.version>4.12</junit.version>
-        <specs2.version>4.3.2</specs2.version>
-        <scalatest.version>2.2.1</scalatest.version>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.scala-lang</groupId>
-                <artifactId>scala-library</artifactId>
-                <version>${scala.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.scala-lang</groupId>
-                <artifactId>scala-compiler</artifactId>
-                <version>${scala.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.scala-lang</groupId>
-                <artifactId>scala-reflect</artifactId>
-                <version>${scala.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.scala-lang</groupId>
-                <artifactId>scalap</artifactId>
-                <version>${scala.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.scala-lang.modules</groupId>
-                <artifactId>scala-parser-combinators_${scala.binary.version}</artifactId>
-                <version>${scala.parsers.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.scala-lang.modules</groupId>
-                <artifactId>scala-xml_${scala.binary.version}</artifactId>
-                <version>${scala.xml.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.typesafe.scala-logging</groupId>
-                <artifactId>scala-logging_${scala.binary.version}</artifactId>
-                <version>${scalalogging.version}</version>
-                <exclusions>
-                    <!-- Exclude slf4j-api here and include it explicitly as a
-                         "provided" dependency, so that users can alter the version
-                         simply by overriding the slf4j.version property. -->
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <!-- Use "provided" scope here to minimize the inclusion of
-                     competing versions of this API in fat JARs and the like.
-                     Rely on the application to supply a compatible implementation. -->
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-
-
-            <!-- Test -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.specs2</groupId>
-                <artifactId>specs2-core_${scala.binary.version}</artifactId>
-                <version>${specs2.version}</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.scala-lang</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.specs2</groupId>
-                <artifactId>specs2-junit_${scala.binary.version}</artifactId>
-                <version>${specs2.version}</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.scala-lang</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.specs2</groupId>
-                <artifactId>specs2-mock_${scala.binary.version}</artifactId>
-                <version>${specs2.version}</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.scala-lang</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.scalatest</groupId>
-                <artifactId>scalatest_${scala.binary.version}</artifactId>
-                <version>${scalatest.version}</version>
-                <scope>test</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
+            <version>2.11.7</version>
         </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-compiler</artifactId>
+            <version>2.11.7</version>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>ome</groupId>
+            <artifactId>formats-gpl</artifactId>
+            <version>6.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.imagej</groupId>
+            <artifactId>ij</artifactId>
+            <version>1.49m</version>
+        </dependency>
+        <dependency>
+            <groupId>sc.fiji</groupId>
+            <artifactId>Extended_Depth_Field</artifactId>
+            <version>2.0.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>sc.fiji</groupId>
+            <artifactId>imageware</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+</dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <!-- 3.8.0 was released 2018-07-26. -->
-                    <version>3.8.0</version>
-                    <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <!-- 3.1.0 was released 2018-04-14. -->
-                    <version>3.1.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <version>1.6.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <!-- 3.1.0 was released 2018-04-23. -->
-                    <version>3.1.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <!-- 3.1.0 was released 2018-04-06. -->
-                    <version>3.1.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <!-- 3.0.0-M1 was released 2018-09-23. -->
-                    <version>3.0.0-M1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <!-- 3.1.1 was released 2018-05-19. -->
-                    <version>3.1.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <!-- 3.1.0 was released 2017-08-13. -->
-                    <version>3.1.0</version>
-                    <configuration>
-                        <tarLongFileMode>posix</tarLongFileMode>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <!-- 3.2.1 was released 2018-11-12. -->
-                    <version>3.2.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <!-- Use a version newer than 2.18.1 since some nasty concurrency bugs with
-                         akka pop up in that version -->
-                    <!-- 3.0.0-M1 was released 2018-11-07. -->
-                    <version>3.0.0-M1</version>
-                    <configuration>
-                        <forkCount>${test.fork.count}</forkCount>
-                        <reuseForks>${test.fork.reuse}</reuseForks>
-                        <forkedProcessTimeoutInSeconds>0</forkedProcessTimeoutInSeconds>
-                        <trimStackTrace>false</trimStackTrace>
-                        <includes>
-                            <include>**/*Test.java</include>
-                        </includes>
-                        <argLine>${maven.test.jvmargs}</argLine>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <!-- 3.0.0-M1 was released 2018-09-23. -->
-                    <version>3.0.0-M1</version>
-                    <configuration>
-                        <deployAtEnd>true</deployAtEnd>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <!-- 3.0.1 was released 2016-06-18. -->
-                    <version>3.0.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.0.1</version>
-                    <!-- 3.0.1 was released 2018-05-25. -->
-                    <configuration>
-                        <!-- google this to find out how annoying it is -->
-                        <doclint>none</doclint> <!-- this changed in v3.0.0 -->
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5.3</version>
-                    <configuration>
-                        <autoVersionSubmodules>true</autoVersionSubmodules>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>pl.project13.maven</groupId>
-                    <artifactId>git-commit-id-plugin</artifactId>
-                    <version>2.2.5</version>
-                    <configuration>
-                        <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                        <runOnlyOnce>false</runOnlyOnce>
-                        <verbose>false</verbose>
-                        <dateFormat>yyyy-MM-dd'T'HH:mm:ssZ</dateFormat>
-                        <failOnNoGitDirectory>false</failOnNoGitDirectory>
-                        <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
-                        <useNativeGit>true</useNativeGit>
-                        <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                        <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-                        <!-- note: don't use includeProperties, it causes non-git properties to be excluded -->
-                        <excludeProperties>
-                            <excludeProperty>^git\.build\.user\.email$</excludeProperty>
-                            <excludeProperty>^git\.build\.host$</excludeProperty>
-                            <excludeProperty>^git\.remote\.origin\.url$</excludeProperty>
-                            <excludeProperty>^git\.commit\.id\.describe-short$</excludeProperty>
-                            <excludeProperty>^git\.commit\.user\.email$</excludeProperty>
-                            <excludeProperty>^git\.commit\.message\.short$</excludeProperty>
-                            <excludeProperty>^git\.commit\.id\.abbrev$</excludeProperty>
-                            <excludeProperty>^git\.build\.user\.name$</excludeProperty>
-                            <excludeProperty>^git\.closest\.tag\.commit\.count$</excludeProperty>
-                            <excludeProperty>^git\.commit\.user\.name$</excludeProperty>
-                        </excludeProperties>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <!-- 3.0.0-M2 was released 2018-06-16. -->
-                    <version>3.0.0-M2</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.0.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-checkstyle-plugin</artifactId>
-                    <!-- 3.0.0 was released 2018-01-07. -->
-                    <version>3.0.0</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.slf4j</groupId>
-                            <artifactId>slf4j-jdk14</artifactId>
-                            <version>1.7.5</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.slf4j</groupId>
-                            <artifactId>jcl-over-slf4j</artifactId>
-                            <version>1.7.5</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>3.0.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <!-- 1.6 was released 2015-01-19 and is the latest as of 2018-11-29. -->
-                    <version>1.6</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>2.9</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>3.7.1</version>
-                    <!-- 3.7.1 was released 2018-04. -->
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <!-- Turn off 'useIncrementalCompilation' to keep this plugin
-                             from recompiling Java files that the scala-maven-plugin
-                             already compiled.  The scala-maven-plugin generates .class
-                             files from Java sources when its 'incremental' option is
-                             turned on.  In this case, maven-compiler-plugin versions
-                             3.0 to current (3.8.0) erroneously detect changes and re-
-                             compile the Java files unless this option is turned off.  -->
-                        <useIncrementalCompilation>false</useIncrementalCompilation>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>net.alchim31.maven</groupId>
-                    <artifactId>scala-maven-plugin</artifactId>
-                    <version>3.2.1</version>
-                    <configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.scala-lang</groupId>
-                                <artifactId>scala-reflect</artifactId>
-                                <version>${scala.version}</version>
-                            </dependency>
-                        </dependencies>
-                        <jvmArgs>
-                            <jvmArg>-Xms1024m</jvmArg>
-                            <jvmArg>-Xmx8G</jvmArg>
-                            <jvmArg>-Xss32m</jvmArg>
-                            <jvmArg>-Duser.timezone=UTC</jvmArg>
-                            <jvmArg>-Djava.awt.headless=true</jvmArg>
-                        </jvmArgs>
-                        <args>
-                            <arg>-unchecked</arg>
-                            <arg>-deprecation</arg>
-                        </args>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                        <scalaVersion>${scala.version}</scalaVersion>
-                        <recompileMode>incremental</recompileMode>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>scala-compile</id>
-                            <phase>process-resources</phase>
-                            <goals>
-                                <goal>add-source</goal>
-                                <goal>compile</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>scala-test-compile</id>
-                            <phase>process-test-resources</phase>
-                            <goals>
-                                <goal>testCompile</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.scalatest</groupId>
-                    <artifactId>scalatest-maven-plugin</artifactId>
-                    <version>1.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>enforce-same-versions</id>
-                            <goals>
-                                <goal>enforce</goal>
-                            </goals>
-                            <configuration>
-                                <rules>
-                                    <requireSameVersions>
-                                        <dependencies>
-                                            <dependency>org.scala-lang</dependency>
-                                        </dependencies>
-                                    </requireSameVersions>
-                                </rules>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
 
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <inherited>true</inherited>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.2.1</version>
                 <executions>
-                    <!-- run mvn enforcer:display-info to see info -->
-                    <!-- right now we are enforcing using maven3.5 and jdk 1.8 -->
                     <execution>
-                        <id>enforce-maven-3</id>
                         <goals>
-                            <goal>enforce</goal>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
                         </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>3.2.1</version>
-                                    <!--<version>3.5.2</version>-->
-                                </requireMavenVersion>
-                                <requireJavaVersion>
-                                    <!-- this is set to 1.3 on purpose to be compat with all JAVA2 projects -->
-                                    <!-- do not increase -->
-                                    <version>1.3</version>
-                                </requireJavaVersion>
-                            </rules>
-                            <fail>true</fail>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- run mvn enforcer:display-info to see info -->
-                        <id>enforce-java</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireJavaVersion>
-                                    <version>1.8.0</version>
-                                </requireJavaVersion>
-                            </rules>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.1</version>
+            </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+        <sourceDirectory>src/main/scala</sourceDirectory>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
     </build>
 
     <developers>
@@ -501,33 +116,6 @@
             <email>Britt.Evans@gmail.com</email>
         </developer>
     </developers>
-
-    <repositories>
-        <repository>
-            <id>central</id>
-            <name>libs-release</name>
-            <url>https://repo.maven.apache.org/maven2</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>ccri-art-snapshot</id>
-            <name>libs-snapshot</name>
-            <url>http://art.ccri.com:8081/artifactory/libs-snapshot</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
-
 
     <!--
     <scm>
