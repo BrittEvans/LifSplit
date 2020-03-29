@@ -1,6 +1,6 @@
 package com.britt.lifsplit
 
-import java.nio.ByteBuffer
+import java.nio.{ByteBuffer, ByteOrder}
 
 import edf.EdfComplexWavelets
 import edfgui.Parameters
@@ -26,6 +26,7 @@ object LifUtils {
     val nX = reader.getSizeX
     val nY = reader.getSizeY
     val buf = ByteBuffer.allocate(nX * nY * 2) //2 for 16-bit pixels
+    buf.order(ByteOrder.LITTLE_ENDIAN)
     val stack = new ImageStack(nX,nY)
 
     for (i <- 0 until reader.getImageCount if i / reader.getSizeZ == channel) {
@@ -46,7 +47,7 @@ object LifUtils {
     params.setQualitySettings(Parameters.QUALITY_HIGH)
     val edf = new EdfComplexWavelets(params.daubechielength, params.nScales, params.subBandCC, params.majCC)
     val out = edf.process(iw)(0)
-    out.show("EDOF")
+    //out.show("EDOF")
     IJ.saveAsTiff(new ImagePlus("Output", out.buildImageStack()), outputFileName)
     println("Done EDOF, printing output info")
     out.printInfo()
