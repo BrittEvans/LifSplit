@@ -1,10 +1,9 @@
 package com.britt.lifsplit
 
+import java.awt.Color
+
 import ij.{IJ, ImagePlus}
 
-/**
-  * Created by Britt on 3/24/20.
-  */
 object LifSplitApp extends App {
 
   println("hello world")
@@ -13,14 +12,16 @@ object LifSplitApp extends App {
   println(s"I read ${logs.length} logback config lines")
 
   val inputFile = "/Users/Britt/lifFiles/bigOne.lif"
-  //val inputFile = "/Volumes/Seagate Portable Drive/Britt/40X 3470 LC - UnMerged Tile - FULL DEPTH.lif"
-  //val inputFile = "/Volumes/Seagate Portable Drive/Britt/40X 3470 LC - UnMerged Tile.lif"
-
   val reader = LifUtils.getReader(inputFile)
-  val rawStack = LifUtils.extractStack(reader, 43, 0)
 
-  IJ.saveAsTiff(new ImagePlus("Raw", rawStack), "/tmp/raw3.tiff")
-  LifUtils.doEDOF(rawStack, "/tmp/edof3.tiff")
+  for (series <- 0 until reader.getSeriesCount) {
+    for (channel <- Seq(0, 1, 3)) {
+      println(s"Working on $series-$channel")
+      val rawStack = LifUtils.extractStack(reader, series, channel, Some(LifUtils.rangeForChannel(channel)))
+      //IJ.saveAsTiff(new ImagePlus("Raw", rawStack), "/tmp/raw4.tiff")
+      LifUtils.doEDOF(rawStack, LifUtils.getFileName(series, channel))
+    }
+  }
   reader.close()
 
 }
